@@ -1,12 +1,12 @@
 // const MongoClient = require('mongodb').MongoClient
 const { MongoClient } = require('mongodb');
 
-let db;
+let _db;
 const mongoo = (callBack) => {
-    MongoClient.connect('mongodb://127.0.0.1:27017/TodoApp')
+    MongoClient.connect('mongodb://127.0.0.1:27017/mytodoapp')
         .then((client) => {
             console.log('database successfully connected');
-            db = client.db();
+            _db = client.db();
             callBack()
         })
         .catch((err) => {
@@ -15,7 +15,14 @@ const mongoo = (callBack) => {
         });
 };
 
+const getDb = () => {
+    if (!_db) {
+        throw new Error('Database is not available yet')
+    }
+    return _db;
+}
+
 module.exports = {
     mongoo,
-    db
+    getDb
 };
